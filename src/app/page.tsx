@@ -1,35 +1,42 @@
 'use client';
 
-import { useState } from 'react';
-import Navigation, { Section } from './components/navigation/Navigation';
-import HomeSection from './components/sections/HomeSection';
-import MenuSection from './components/sections/MenuSection';
-import AboutSection from './components/sections/AboutSection';
-import ContactSection from './components/sections/ContactSection';
-import Footer from './components/layout/Footer';
+import Link from 'next/link';
+import Button from './components/ui/Button';
 
 export default function Home() {
-  const [activeSection, setActiveSection] = useState<Section>('home');
-
   return (
-    <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <Navigation activeSection={activeSection} onSectionChange={setActiveSection} />
+    <section className="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden">
+      {/* Background Image with Overlay */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: "url('/assets/ivan-torres-MQUqbmszGGM-unsplash.jpg')",
+        }}
+      >
+        <div className="absolute inset-0 bg-black/60" />
+      </div>
 
-      {/* Hero Section */}
-      {activeSection === 'home' && <HomeSection onNavigate={setActiveSection} />}
-
-      {/* Menu Section */}
-      {activeSection === 'menu' && <MenuSection />}
-
-      {/* About Section */}
-      {activeSection === 'about' && <AboutSection />}
-
-      {/* Contact Section */}
-      {activeSection === 'contact' && <ContactSection />}
-
-      {/* Footer */}
-      <Footer />
-    </div>
+      {/* Content */}
+      <div className="max-w-6xl mx-auto px-4 py-20 text-center relative z-10">
+        <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
+          Pete's Za
+        </h1>
+        <p className="text-xl text-gray-200 mb-8">
+          Authentic Italian Pizza Made with Love
+        </p>
+        <div className="flex justify-center space-x-4 flex-wrap">
+          <Link href="/menu/">
+            <Button variant="primary">
+              View Our Menu
+            </Button>
+          </Link>
+          <Link href="/contact/">
+            <Button variant="secondary">
+              Contact Us
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </section>
   );
 }

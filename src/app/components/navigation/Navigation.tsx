@@ -1,15 +1,20 @@
 'use client';
 
-import { useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export type Section = 'home' | 'menu' | 'about' | 'contact';
 
-interface NavigationProps {
-  activeSection: Section;
-  onSectionChange: (section: Section) => void;
-}
+const sectionPaths: Record<Section, string> = {
+  home: '/',
+  menu: '/menu/',
+  about: '/about/',
+  contact: '/contact/'
+};
 
-export default function Navigation({ activeSection, onSectionChange }: NavigationProps) {
+export default function Navigation() {
+  const pathname = usePathname();
+  
   const sections: { key: Section; label: string }[] = [
     { key: 'home', label: 'Home' },
     { key: 'menu', label: 'Menu' },
@@ -21,20 +26,22 @@ export default function Navigation({ activeSection, onSectionChange }: Navigatio
     <nav className="fixed top-0 left-0 right-0 z-50 bg-brand-red shadow-lg">
       <div className="max-w-6xl mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-white">Pete's Za</h1>
+          <Link href="/" className="text-2xl font-bold text-white hover:text-white/80 transition-colors">
+            Pete's Za
+          </Link>
           <div className="flex space-x-4">
             {sections.map((section) => (
-              <button
+              <Link
                 key={section.key}
-                onClick={() => onSectionChange(section.key)}
+                href={sectionPaths[section.key]}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                  activeSection === section.key
+                  pathname === sectionPaths[section.key]
                     ? 'bg-white text-brand-red'
                     : 'text-white hover:bg-white/20'
                 }`}
               >
                 {section.label}
-              </button>
+              </Link>
             ))}
           </div>
         </div>
